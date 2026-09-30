@@ -1,2 +1,2 @@
 streamlit>=1.40,<2
-crewai[litellm]==1.14.6
+crewai==1.14.6

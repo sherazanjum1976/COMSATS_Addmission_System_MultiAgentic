@@ -14,14 +14,16 @@ from recommendation_agent import build_recommendation_agent, build_recommendatio
 from requirements_agent import build_requirements_agent, build_requirements_task
 from summary_agent import build_summary_agent, build_summary_task
 
-MODEL = "groq/openai/gpt-oss-120b"  # Groq via CrewAI's LiteLLM integration
+# Groq via its OpenAI-compatible endpoint, using CrewAI's native OpenAI provider (no LiteLLM needed)
+MODEL = "openai/gpt-oss-120b"
+GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 
 
 def _llm():
     key = os.environ.get("GROQ_API_KEY")
     if not key:
         raise ValueError("GROQ_API_KEY is not set. Add it in Streamlit Secrets.")
-    return LLM(model=MODEL, api_key=key, temperature=0.2, timeout=120)
+    return LLM(model=MODEL, provider="openai", base_url=GROQ_BASE_URL, api_key=key, temperature=0.2, timeout=120)
 
 
 def _clean(text):
